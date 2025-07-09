@@ -15,9 +15,3 @@ cd matrix-server-template
 chmod +x generate-and-start.sh
 ./generate-and-start.sh
 ```
-
-### 4. Khởi động dịch vụ:
-
-```bash
-docker compose up -d
-```
