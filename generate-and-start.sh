@@ -2,10 +2,10 @@
 set -e
 
 # Load ENV
-source ./config.env
+source ./.env
 
 if [[ -z "$DOMAIN" || -z "$CF_TOKEN" ]]; then
-  echo "❌ Thiếu DOMAIN hoặc CF_TOKEN trong config.env"
+  echo "❌ Thiếu DOMAIN hoặc CF_TOKEN trong .env"
   exit 1
 fi
 
