@@ -1,14 +1,31 @@
-version: "3"
+version: '3'
 
 services:
   synapse:
     image: matrixdotorg/synapse:latest
     container_name: synapse
+    restart: unless-stopped
     volumes:
       - ./data:/data
-    environment:
-      - SYNAPSE_SERVER_NAME=${DOMAIN}
-      - SYNAPSE_REPORT_STATS=yes
     ports:
-      - "8008:8008"
+      - '8008:8008'
+    networks:
+      - matrix-net
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-matrix
     restart: unless-stopped
+    volumes:
+      - ./nginx/matrix.nginx.conf:/etc/nginx/conf.d/default.conf
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8448:8448'
+    networks:
+      - matrix-net
+
+networks:
+  matrix-net:
+    driver: bridge
