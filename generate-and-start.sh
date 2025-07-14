@@ -19,6 +19,13 @@ docker run -it --rm \
   matrixdotorg/synapse:latest \
   generate
 
+echo "📝 Thêm cấu hình đăng ký vào homeserver.yaml"
+cat <<EOF >> ./data/homeserver.yaml
+
+enable_registration: true
+enable_registration_without_verification: true
+EOF
+
 echo "🔐 Ghi thông tin Cloudflare DNS token"
 mkdir -p certbot
 cat <<EOF > ./certbot/cloudflare.ini
@@ -38,7 +45,7 @@ sed -i "s|live/.*fullchain.pem|live/$DOMAIN/fullchain.pem|" ./nginx/matrix.nginx
 sed -i "s|live/.*privkey.pem|live/$DOMAIN/privkey.pem|" ./nginx/matrix.nginx.conf
 
 echo "🚀 Khởi động Docker Compose"
-docker compose up -d
+docker-compose up -d
 
 echo "✅ Hoàn tất! Kiểm tra Federation:"
 echo "curl https://$DOMAIN:8448/_matrix/key/v2/server"
